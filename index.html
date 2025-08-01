@@ -1,237 +1,32 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Barbearia Gustavon</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #0f0f0f;
-      color: #fff;
-      overflow-x: hidden;
-    }
-
-    .loader {
-      position: fixed;
-      width: 100%;
-      height: 100%;
-      background: #0f0f0f;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-    }
-
-    .loader h1 {
-      font-size: 2rem;
-      color: #0ff;
-      text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
-      animation: pulse 1.5s infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% {
-        opacity: 0.5;
-      }
-      50% {
-        opacity: 1;
-      }
-    }
-
-    .container {
-      max-width: 600px;
-      margin: 100px auto;
-      text-align: center;
-      padding: 2rem;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid #0ff;
-      border-radius: 12px;
-      box-shadow: 0 0 20px #0ff4;
-    }
-
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-      text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
-    }
-
-    label {
-      display: block;
-      margin-top: 1rem;
-      font-size: 1.1rem;
-    }
-
-    input, select, button {
-      margin-top: 0.5rem;
-      padding: 10px;
-      border: none;
-      border-radius: 8px;
-      font-size: 1rem;
-      width: 100%;
-    }
-
-    input, select {
-      background: #1f1f1f;
-      color: #0ff;
-      box-shadow: 0 0 5px #0ff;
-    }
-
-    button {
-      background: #0ff;
-      color: #000;
-      font-weight: bold;
-      margin-top: 1.5rem;
-      cursor: pointer;
-      box-shadow: 0 0 15px #0ff, 0 0 25px #0ff;
-      transition: 0.3s;
-    }
-
-    button:hover {
-      background: #000;
-      color: #0ff;
-      box-shadow: 0 0 15px #0ff, 0 0 35px #0ff;
-    }
-
-    .extra-buttons {
-      display: flex;
-      gap: 10px;
-      margin-top: 2rem;
-      flex-direction: column;
-    }
-
-    .neon-btn {
-      background: transparent;
-      border: 2px solid #0ff;
-      color: #0ff;
-      padding: 10px;
-      font-size: 1rem;
-      border-radius: 8px;
-      box-shadow: 0 0 15px #0ff;
-      transition: all 0.3s ease;
-      cursor: pointer;
-    }
-
-    .neon-btn:hover {
-      background: #0ff;
-      color: #000;
-    }
-
-    footer {
-      text-align: center;
-      margin-top: 50px;
-      color: #aaa;
-      font-size: 0.9rem;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
-  <!-- Tela de Carregamento -->
-  <div class="loader" id="loader">
-    <h1>Carregando Gustavon...</h1>
+  <div id="preloader">
+    <div class="loader"></div>
   </div>
 
-  <div class="container" style="display: none;" id="app">
-    <h1>Barbearia Gustavon</h1>
+  <header>
+    <h1 class="logo">Gustavon</h1>
+    <nav>
+      <a href="index.html">Início</a>
+      <a href="servicos.html">Serviços</a>
+      <a href="agendar.html">Agendar</a>
+      <a href="contato.html">Contato</a>
+    </nav>
+  </header>
 
-    <label for="date">Selecione uma data:</label>
-    <input type="date" id="date" onchange="loadHorarios()" />
+  <main class="home">
+    <h2>Bem-vindo à Barbearia Gustavon</h2>
+    <p>Estilo e atitude em cada corte.</p>
+    <a href="agendar.html" class="btn-neon">Agende Agora</a>
+  </main>
 
-    <label for="time">Horário disponível:</label>
-    <select id="time">
-      <option value="">Selecione uma data</option>
-    </select>
-
-    <button onclick="marcarHorario()">Agendar Corte</button>
-
-    <div class="extra-buttons">
-      <button class="neon-btn" onclick="verAgendamentos()">Ver Meus Agendamentos</button>
-      <button class="neon-btn" onclick="contato()">Contato</button>
-    </div>
-  </div>
-
-  <footer>
-    © 2025 Barbearia Gustavon. Todos os direitos reservados.
-  </footer>
-
-  <script>
-    const horariosDisponiveis = {
-      "2025-08-01": ["09:00", "10:00", "13:00", "15:00"],
-      "2025-08-02": ["08:00", "12:00", "14:00", "17:00"],
-    };
-
-    const agendados = [];
-
-    function loadHorarios() {
-      const date = document.getElementById("date").value;
-      const select = document.getElementById("time");
-      select.innerHTML = "";
-
-      if (!horariosDisponiveis[date]) {
-        const opt = document.createElement("option");
-        opt.text = "Nenhum horário disponível";
-        opt.disabled = true;
-        select.appendChild(opt);
-        return;
-      }
-
-      horariosDisponiveis[date].forEach(hora => {
-        const option = document.createElement("option");
-        option.value = hora;
-        option.text = hora;
-
-        const jaAgendado = agendados.some(item => item.date === date && item.time === hora);
-        if (jaAgendado) {
-          option.disabled = true;
-          option.text += " (Indisponível)";
-        }
-
-        select.appendChild(option);
-      });
-    }
-
-    function marcarHorario() {
-      const date = document.getElementById("date").value;
-      const time = document.getElementById("time").value;
-
-      if (!date || !time) {
-        alert("Preencha todos os campos!");
-        return;
-      }
-
-      agendados.push({ date, time });
-      alert(`Seu corte foi agendado para ${date} às ${time}`);
-      loadHorarios();
-    }
-
-    function verAgendamentos() {
-      let msg = "Agendamentos:\n";
-      if (agendados.length === 0) {
-        msg += "Nenhum horário marcado ainda.";
-      } else {
-        agendados.forEach(a => msg += `• ${a.date} às ${a.time}\n`);
-      }
-      alert(msg);
-    }
-
-    function contato() {
-      alert("Contato: WhatsApp (99) 99999-9999\nInstagram: @gustavonbarber");
-    }
-
-    // Tela de carregamento
-    window.onload = () => {
-      setTimeout(() => {
-        document.getElementById("loader").style.display = "none";
-        document.getElementById("app").style.display = "block";
-      }, 1500);
-    };
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
