@@ -1,240 +1,237 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Barbearia Gustavon</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg: #0a0a0a;
-      --neon-blue: #00f0ff;
-      --neon-purple: #9f00ff;
-      --text: #ffffff;
-      --dark: #121212;
-    }
-
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Orbitron', sans-serif;
     }
 
     body {
-      background-color: var(--bg);
-      color: var(--text);
-      padding: 20px;
-      text-align: center;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #0f0f0f;
+      color: #fff;
+      overflow-x: hidden;
     }
 
-    h1, h2 {
-      text-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-purple);
-      margin-bottom: 20px;
-    }
-
-    nav a {
-      margin: 0 15px;
-      color: var(--neon-blue);
-      text-decoration: none;
-      font-weight: bold;
-      transition: 0.3s;
-    }
-
-    nav a:hover {
-      color: var(--neon-purple);
-      text-shadow: 0 0 10px var(--neon-purple);
-    }
-
-    .welcome p {
-      margin-bottom: 20px;
-      color: #aaa;
-    }
-
-    .fotos {
+    .loader {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background: #0f0f0f;
       display: flex;
+      align-items: center;
       justify-content: center;
-      flex-wrap: wrap;
-      gap: 20px;
+      z-index: 9999;
     }
 
-    .fotos img {
-      width: 300px;
-      height: 200px;
-      object-fit: cover;
-      border: 2px solid var(--neon-blue);
-      border-radius: 10px;
-      transition: transform 0.3s ease;
+    .loader h1 {
+      font-size: 2rem;
+      color: #0ff;
+      text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
+      animation: pulse 1.5s infinite;
     }
 
-    .fotos img:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 15px var(--neon-blue);
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 0.5;
+      }
+      50% {
+        opacity: 1;
+      }
     }
 
-    .agendamento {
-      background-color: var(--dark);
-      border: 1px solid var(--neon-purple);
-      border-radius: 15px;
-      padding: 30px;
-      max-width: 500px;
-      margin: 50px auto;
-      box-shadow: 0 0 20px var(--neon-purple);
+    .container {
+      max-width: 600px;
+      margin: 100px auto;
+      text-align: center;
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid #0ff;
+      border-radius: 12px;
+      box-shadow: 0 0 20px #0ff4;
     }
 
-    form {
-      text-align: left;
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
     }
 
     label {
       display: block;
-      margin-top: 20px;
-      font-weight: bold;
-      color: var(--neon-blue);
+      margin-top: 1rem;
+      font-size: 1.1rem;
+    }
+
+    input, select, button {
+      margin-top: 0.5rem;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      width: 100%;
     }
 
     input, select {
-      width: 100%;
-      padding: 12px;
-      margin-top: 5px;
-      border: none;
-      border-radius: 8px;
-      background-color: #1e1e1e;
-      color: var(--text);
+      background: #1f1f1f;
+      color: #0ff;
+      box-shadow: 0 0 5px #0ff;
     }
 
     button {
-      margin-top: 25px;
-      width: 100%;
-      padding: 15px;
-      font-size: 1em;
-      background: linear-gradient(90deg, var(--neon-purple), var(--neon-blue));
-      color: white;
-      border: none;
-      border-radius: 10px;
+      background: #0ff;
+      color: #000;
+      font-weight: bold;
+      margin-top: 1.5rem;
       cursor: pointer;
-      box-shadow: 0 0 15px var(--neon-blue);
+      box-shadow: 0 0 15px #0ff, 0 0 25px #0ff;
       transition: 0.3s;
     }
 
     button:hover {
-      box-shadow: 0 0 25px var(--neon-purple), 0 0 35px var(--neon-blue);
-      transform: scale(1.03);
+      background: #000;
+      color: #0ff;
+      box-shadow: 0 0 15px #0ff, 0 0 35px #0ff;
     }
 
-    .confirmacao {
-      margin-top: 25px;
-      background-color: #111;
-      border: 1px solid var(--neon-blue);
-      border-radius: 10px;
-      padding: 20px;
-      animation: fadeIn 1s ease-in-out;
+    .extra-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 2rem;
+      flex-direction: column;
     }
 
-    @keyframes fadeIn {
-      from {opacity: 0;}
-      to {opacity: 1;}
+    .neon-btn {
+      background: transparent;
+      border: 2px solid #0ff;
+      color: #0ff;
+      padding: 10px;
+      font-size: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 0 15px #0ff;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .neon-btn:hover {
+      background: #0ff;
+      color: #000;
     }
 
     footer {
-      margin-top: 60px;
-      color: #666;
-      font-size: 0.9em;
+      text-align: center;
+      margin-top: 50px;
+      color: #aaa;
+      font-size: 0.9rem;
     }
   </style>
 </head>
 <body>
 
-  <header>
+  <!-- Tela de Carregamento -->
+  <div class="loader" id="loader">
+    <h1>Carregando Gustavon...</h1>
+  </div>
+
+  <div class="container" style="display: none;" id="app">
     <h1>Barbearia Gustavon</h1>
-    <nav>
-      <a href=\"#agendamento\">Agendar</a>
-      <a href=\"https://wa.me/SEUNUMERO\" target=\"_blank\">WhatsApp</a>
-    </nav>
-  </header>
 
-  <section class=\"welcome\">
-    <h2>Estilo e atitude</h2>
-    <p>Tradição e inovação em um só lugar. Agende seu horário com estilo neon!</p>
-    <div class=\"fotos\">
-      <img src=\"https://via.placeholder.com/300x200?text=Ambiente\" alt=\"Ambiente\">
-      <img src=\"https://via.placeholder.com/300x200?text=Barbeiro\" alt=\"Barbeiro\">
+    <label for="date">Selecione uma data:</label>
+    <input type="date" id="date" onchange="loadHorarios()" />
+
+    <label for="time">Horário disponível:</label>
+    <select id="time">
+      <option value="">Selecione uma data</option>
+    </select>
+
+    <button onclick="marcarHorario()">Agendar Corte</button>
+
+    <div class="extra-buttons">
+      <button class="neon-btn" onclick="verAgendamentos()">Ver Meus Agendamentos</button>
+      <button class="neon-btn" onclick="contato()">Contato</button>
     </div>
-  </section>
-
-  <section id=\"agendamento\" class=\"agendamento\">
-    <h2>Agende seu Corte</h2>
-    <form id=\"form-agendamento\">
-      <label for=\"nome\">Nome:</label>
-      <input type=\"text\" id=\"nome\" required />
-
-      <label for=\"whatsapp\">WhatsApp (com DDD):</label>
-      <input type=\"tel\" id=\"whatsapp\" required />
-
-      <label for=\"data\">Data:</label>
-      <input type=\"date\" id=\"data\" required />
-
-      <label for=\"horario\">Horário:</label>
-      <select id=\"horario\" required>
-        <option value=\"\">Escolha uma data primeiro</option>
-      </select>
-
-      <button type=\"submit\">Confirmar Agendamento</button>
-    </form>
-
-    <div class=\"confirmacao hidden\" id=\"confirmacao\">
-      <p>Agendamento confirmado para <strong id=\"conf-nome\"></strong> em <strong id=\"conf-data\"></strong> às <strong id=\"conf-hora\"></strong>.</p>
-      <p><a id=\"whats-link\" target=\"_blank\">Abrir mensagem no WhatsApp</a></p>
-    </div>
-  </section>
+  </div>
 
   <footer>
-    <p>&copy; 2025 Barbearia Gustavon | Neon Style</p>
+    © 2025 Barbearia Gustavon. Todos os direitos reservados.
   </footer>
 
   <script>
-    const horariosDisponiveis = [\"09:00\", \"10:00\", \"11:00\", \"13:00\", \"14:00\", \"15:00\", \"16:00\"];
-    const agendados = {};
+    const horariosDisponiveis = {
+      "2025-08-01": ["09:00", "10:00", "13:00", "15:00"],
+      "2025-08-02": ["08:00", "12:00", "14:00", "17:00"],
+    };
 
-    const dataInput = document.getElementById('data');
-    const horarioSelect = document.getElementById('horario');
-    const form = document.getElementById('form-agendamento');
-    const confirmacao = document.getElementById('confirmacao');
+    const agendados = [];
 
-    dataInput.addEventListener('change', () => {
-      const data = dataInput.value;
-      horarioSelect.innerHTML = '';
-      horariosDisponiveis.forEach(horario => {
-        const ocupado = agendados[data]?.includes(horario);
-        const opt = document.createElement('option');
-        opt.value = horario;
-        opt.textContent = horario;
-        if (ocupado) opt.disabled = true;
-        horarioSelect.appendChild(opt);
+    function loadHorarios() {
+      const date = document.getElementById("date").value;
+      const select = document.getElementById("time");
+      select.innerHTML = "";
+
+      if (!horariosDisponiveis[date]) {
+        const opt = document.createElement("option");
+        opt.text = "Nenhum horário disponível";
+        opt.disabled = true;
+        select.appendChild(opt);
+        return;
+      }
+
+      horariosDisponiveis[date].forEach(hora => {
+        const option = document.createElement("option");
+        option.value = hora;
+        option.text = hora;
+
+        const jaAgendado = agendados.some(item => item.date === date && item.time === hora);
+        if (jaAgendado) {
+          option.disabled = true;
+          option.text += " (Indisponível)";
+        }
+
+        select.appendChild(option);
       });
-    });
+    }
 
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      const nome = document.getElementById('nome').value;
-      const whatsapp = document.getElementById('whatsapp').value;
-      const data = document.getElementById('data').value;
-      const horario = document.getElementById('horario').value;
+    function marcarHorario() {
+      const date = document.getElementById("date").value;
+      const time = document.getElementById("time").value;
 
-      if (!agendados[data]) agendados[data] = [];
-      agendados[data].push(horario);
+      if (!date || !time) {
+        alert("Preencha todos os campos!");
+        return;
+      }
 
-      document.getElementById('conf-nome').textContent = nome;
-      document.getElementById('conf-data').textContent = data;
-      document.getElementById('conf-hora').textContent = horario;
+      agendados.push({ date, time });
+      alert(`Seu corte foi agendado para ${date} às ${time}`);
+      loadHorarios();
+    }
 
-      const texto = `Olá, ${nome}! Seu corte na Barbearia Gustavon está marcado para ${data} às ${horario}. Te esperamos! 💈`;
-      const linkWhats = `https://wa.me/55${whatsapp.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(texto)}`;
-      document.getElementById('whats-link').href = linkWhats;
+    function verAgendamentos() {
+      let msg = "Agendamentos:\n";
+      if (agendados.length === 0) {
+        msg += "Nenhum horário marcado ainda.";
+      } else {
+        agendados.forEach(a => msg += `• ${a.date} às ${a.time}\n`);
+      }
+      alert(msg);
+    }
 
-      confirmacao.classList.remove('hidden');
-      form.reset();
-    });
+    function contato() {
+      alert("Contato: WhatsApp (99) 99999-9999\nInstagram: @gustavonbarber");
+    }
+
+    // Tela de carregamento
+    window.onload = () => {
+      setTimeout(() => {
+        document.getElementById("loader").style.display = "none";
+        document.getElementById("app").style.display = "block";
+      }, 1500);
+    };
   </script>
 </body>
 </html>
