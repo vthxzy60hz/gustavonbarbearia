@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Barbearia Gustavon</title>
+  <style>
+    :root {
+      --azul-escuro: #0b1c2c;
+      --azul-claro: #00aaff;
+      --branco: #ffffff;
+      --cinza-escuro: #2c2c2c;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--azul-escuro);
+      color: var(--branco);
+      padding: 20px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    header h1 {
+      font-size: 2.5em;
+      color: var(--azul-claro);
+    }
+
+    nav a {
+      margin: 0 10px;
+      color: var(--branco);
+      text-decoration: none;
+    }
+
+    section.welcome {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .fotos {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .fotos img {
+      width: 250px;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    section.agendamento {
+      background-color: var(--cinza-escuro);
+      padding: 20px;
+      border-radius: 12px;
+      max-width: 500px;
+      margin: 0 auto 40px auto;
+    }
+
+    form label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    form input, form select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      font-size: 1em;
+    }
+
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      background-color: var(--azul-claro);
+      border: none;
+      border-radius: 10px;
+      color: var(--branco);
+      font-size: 1em;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #0094dd;
+    }
+
+    .confirmacao {
+      margin-top: 20px;
+      background-color: #006699;
+      padding: 15px;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    footer {
+      text-align: center;
+      color: #aaa;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Barbearia Gustavon</h1>
+    <nav>
+      <a href="#agendamento">Agendar</a>
+      <a href="https://wa.me/SEUNUMERO" target="_blank">WhatsApp</a>
+    </nav>
+  </header>
+
+  <section class="welcome">
+    <h2>Bem-vindo à Barbearia Gustavon</h2>
+    <p>Tradição, estilo e profissionalismo em cada corte.</p>
+    <div class="fotos">
+      <img src="https://via.placeholder.com/250x160?text=Ambiente" alt="Ambiente">
+      <img src="https://via.placeholder.com/250x160?text=Barbeiro" alt="Barbeiro">
+    </div>
+  </section>
+
+  <section id="agendamento" class="agendamento">
+    <h2>Agende seu horário</h2>
+    <form id="form-agendamento">
+      <label for="nome">Nome:</label>
+      <input type="text" id="nome" required />
+
+      <label for="whatsapp">WhatsApp (com DDD):</label>
+      <input type="tel" id="whatsapp" required />
+
+      <label for="data">Data:</label>
+      <input type="date" id="data" required />
+
+      <label for="horario">Horário:</label>
+      <select id="horario" required>
+        <option value=\"\">Escolha uma data primeiro</option>
+      </select>
+
+      <button type="submit">Confirmar Agendamento</button>
+    </form>
+
+    <div class="confirmacao hidden" id="confirmacao">
+      <p>Agendamento confirmado para <strong id="conf-nome"></strong> em <strong id="conf-data"></strong> às <strong id="conf-hora"></strong>.</p>
+      <p><a id="whats-link" target="_blank">Clique aqui para ver no WhatsApp</a></p>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Barbearia Gustavon | Desenvolvido para GitHub</p>
+  </footer>
+
+  <script>
+    const horariosDisponiveis = [
+      \"09:00\", \"10:00\", \"11:00\",
+      \"13:00\", \"14:00\", \"15:00\", \"16:00\"
+    ];
+    const agendados = {};
+
+    const dataInput = document.getElementById('data');
+    const horarioSelect = document.getElementById('horario');
+    const form = document.getElementById('form-agendamento');
+    const confirmacao = document.getElementById('confirmacao');
+
+    dataInput.addEventListener('change', () => {
+      const data = dataInput.value;
+      horarioSelect.innerHTML = '';
+
+      horariosDisponiveis.forEach(horario => {
+        const jaUsado = agendados[data]?.includes(horario);
+        const opt = document.createElement('option');
+        opt.value = horario;
+        opt.textContent = horario;
+        if (jaUsado) opt.disabled = true;
+        horarioSelect.appendChild(opt);
+      });
+    });
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const nome = document.getElementById('nome').value;
+      const whatsapp = document.getElementById('whatsapp').value;
+      const data = document.getElementById('data').value;
+      const horario = document.getElementById('horario').value;
+
+      if (!agendados[data]) agendados[data] = [];
+      agendados[data].push(horario);
+
+      document.getElementById('conf-nome').textContent = nome;
+      document.getElementById('conf-data').textContent = data;
+      document.getElementById('conf-hora').textContent = horario;
+
+      const texto = `Olá, ${nome}! Seu corte na Barbearia Gustavon está marcado para ${data} às ${horario}. Te esperamos! 💈`;
+      const linkWhats = `https://wa.me/55${whatsapp.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(texto)}`;
+      document.getElementById('whats-link').href = linkWhats;
+
+      confirmacao.classList.remove('hidden');
+      form.reset();
+    });
+  </script>
+</body>
+</html>
